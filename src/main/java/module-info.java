@@ -7,6 +7,7 @@ module com.example.proiectjavafx {
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
 
-    opens com.example.proiectjavafx to javafx.fxml;
+    opens com.example.proiectjavafx to javafx.fxml, javafx.base, javafx.graphics;
     exports com.example.proiectjavafx;
+    opens domain;
 }

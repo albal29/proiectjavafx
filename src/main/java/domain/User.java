@@ -1,6 +1,8 @@
 package domain;
 
 
+import javafx.beans.property.StringProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +26,9 @@ public class User extends Entity<Long>{
     }
     public User(){}
 
-    public String getFirstName() {
+
+
+    public final String getFirstName() {
         return firstName;
     }
 
@@ -32,7 +36,7 @@ public class User extends Entity<Long>{
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public final String getLastName() {
         return lastName;
     }
 

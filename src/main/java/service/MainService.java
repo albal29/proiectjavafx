@@ -107,16 +107,16 @@ public class MainService {
     }
 
 
-    public List<DTO> getUserFriends(Long id) {
+    public List<User> getUserFriends(Long id) {
         List<Friendship> friendships = new ArrayList<Friendship>();
         findAllFriendships().forEach(friendships::add);
-        List<DTO> friends = friendships.stream()
+        List<User> friends = friendships.stream()
                 .filter(f -> f.getId().getLeft() == id && f.getStatut().equals("Approved"))
-                .map(f -> new DTO(findUser(f.getId().getRight()).getFirstName(), findUser(f.getId().getRight()).getLastName(), f.getDate()))
+                .map(f -> findUser(f.getId().getRight()))
                 .collect(Collectors.toList());
         friends.addAll(friendships.stream()
                 .filter(f -> f.getId().getRight() == id && f.getStatut().equals("Approved"))
-                .map(f -> new DTO(findUser(f.getId().getLeft()).getFirstName(), findUser(f.getId().getLeft()).getLastName(), f.getDate()))
+                .map(f -> findUser(f.getId().getLeft()))
                 .collect(Collectors.toList()));
         return friends;
     }
