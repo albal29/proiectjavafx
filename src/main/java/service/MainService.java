@@ -13,11 +13,19 @@ public class MainService {
     UserService us;
     FriendshipService fs;
     MessageService ms;
+    String currentUser;
 
     public MainService(UserService us, FriendshipService fs, MessageService ms) {
         this.us = us;
         this.fs = fs;
         this.ms = ms;
+    }
+
+    public void setcurrentUser(String User){
+        this.currentUser = User;
+    }
+    public String getCurrentUser(){
+        return currentUser;
     }
 
     public User addUser(User entity) {
@@ -85,6 +93,19 @@ public class MainService {
         return net.mostSociableCommunity();
 
     }
+
+    public boolean logInToAccount(String username,String password) {
+
+        for (var user : findAllUsers()
+        ) {
+            if (user.getUserName().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
 
     public List<DTO> getUserFriends(Long id) {
         List<Friendship> friendships = new ArrayList<Friendship>();
