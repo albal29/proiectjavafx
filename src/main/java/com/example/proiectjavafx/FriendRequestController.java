@@ -24,9 +24,7 @@ public class FriendRequestController {
     private Label friendRequests;
     private User currentUser;
     private MainService mainService;
-    private AnchorPane anchorPane;
     private ObservableList<FriendRequest> model= FXCollections.observableArrayList();
-    private Stage stage;
 
     @FXML
     private TableColumn firstNameColumn;
@@ -45,9 +43,6 @@ public class FriendRequestController {
         initModel();
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     @FXML
     public void initialize(){
@@ -76,7 +71,7 @@ public class FriendRequestController {
         FriendRequest selected = tableView.getSelectionModel().getSelectedItem();
         if(selected != null){
             Friendship friendship = mainService.findFrienship(selected.getId());
-            friendship.setStatut("Declined");
+            friendship.setStatut("");
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setContentText("Friend request deleted successfully!");
             a.showAndWait();

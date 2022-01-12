@@ -60,4 +60,14 @@ public class LoginController {
                 a.setContentText("No user with the introduced data!");
                 a.showAndWait();
             }}
+
+    public void handleBtnSignIn(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("sign-in.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        primaryStage.setTitle("Sign in");
+        primaryStage.setScene(scene);
+        SignInController signInController = fxmlLoader.getController();
+        signInController.setService(service);
+        signInController.setStage(primaryStage);
+    }
 }

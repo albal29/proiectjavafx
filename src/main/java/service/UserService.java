@@ -25,8 +25,17 @@ public class UserService implements Service<Long, User>{
         return rep.findAll();
     }
 
+    public Long size(){
+        Long count=0l;
+        for(User u:findAll()){
+            count++;
+        }
+        return count;
+    }
+
     @Override
     public User save(User entity) {
+        entity.setId(size()+1);
         return rep.save(entity);
     }
 
@@ -54,7 +63,7 @@ public class UserService implements Service<Long, User>{
             if(u.getUserName().equals(username))
                 return u;
 
-        throw new RepoException("User with given username doesn't exist!");
+        return null;
     }
 
 }

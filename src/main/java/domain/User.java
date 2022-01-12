@@ -25,7 +25,14 @@ public class User extends Entity<Long>{
         this.setId(id);
     }
     public User(){}
-
+    public User(String firstName, String lastName, String userName, String eMail, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.eMail = eMail;
+        this.password = password;
+        this.friends = new ArrayList<>();
+    }
 
 
     public final String getFirstName() {

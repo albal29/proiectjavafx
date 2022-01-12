@@ -26,27 +26,16 @@ import java.util.List;
 
 public class MainController {
     @FXML
-    private AnchorPane view_friends;
+    private BorderPane rightSide;
 
     @FXML
     private Label usernameLbl,firstnameLbl,lastnameLbl;
 
     private MainService service;
     private Stage primaryStage;
-    ObservableList<User> model = FXCollections.observableArrayList();
 
-    @FXML
-    private TextField txtSearchUser;
-    @FXML
-    private TableColumn<User, String> firstNameColumn;
 
-    @FXML
-    private TableColumn<User, String> lastNameColumn;
-
-    @FXML
-    private TableView<User> tableView;
-
-    public void setService(MainService service){
+    public void setService(MainService service) throws IOException {
         this.service = service;
         this.usernameLbl.setText(service.getCurrentUser());
         this.firstnameLbl.setText(service.getByUsername(service.getCurrentUser()).getFirstName());
@@ -61,31 +50,20 @@ public class MainController {
 
 
     @FXML
-    public void initialize() {
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("firstName"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("lastName"));
-
-        tableView.setItems(model);
-
-
-    }
-
-    private void initModel() {
-        List<User> users = service.getUserFriends(service.getByUsername(service.getCurrentUser()).getId());
-        model.setAll(users);
+    public void initModel() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("view-friends.fxml"));
+        rightSide.setCenter(fxmlLoader.load());
+        FriendsController friendsController = fxmlLoader.getController();
+        friendsController.setService(service);
     }
 
 
 
     public void handleBtnRequests(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("friend-request.fxml"));
-
-        fxmlLoader.setRoot(view_friends);
-
-        fxmlLoader.load();
-
-        FriendRequestController mainController = fxmlLoader.getController();
-        mainController.setService(service);
+        rightSide.setCenter(fxmlLoader.load());
+        FriendRequestController friendRequestController = fxmlLoader.getController();
+        friendRequestController.setService(service);
     }
 
     public void handleBtnLogOut(ActionEvent actionEvent) throws IOException {
@@ -100,70 +78,9 @@ public class MainController {
         mainController.setStage(primaryStage);
     }
 
-    public void handleBtnSeeFriends(ActionEvent actionEvent) {
+    public void handleBtnSeeFriends(ActionEvent actionEvent) throws IOException {
         initModel();
     }
 
-    public void handleRemoveFriendButton(ActionEvent actionEvent) {
-        User selected = tableView.getSelectionModel().getSelectedItem();
-        if(selected != null){
-            service.removeFriendship(new Tuple(selected.getId(),service.getByUsername(service.getCurrentUser()).getId()));
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setContentText("Friend deleted successfully!");
-            a.showAndWait();
-        }
-        else {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText("Please select an user!");
-            a.showAndWait();
-        }
-        }
 
-
-
-    public void handlebtnAddFriend(ActionEvent actionEvent) {
-        User selected = tableView.getSelectionModel().getSelectedItem();
-        if(selected != null){
-            if(service.getUserFriends(service.getByUsername(service.getCurrentUser()).getId()).contains(selected))
-            {
-                Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setContentText("User already in friends list!");
-                a.showAndWait();
-            }
-
-            else{
-                service.addFriendship(new Friendship(selected.getId(),service.getByUsername(service.getCurrentUser()).getId()));
-                Alert a = new Alert(Alert.AlertType.INFORMATION);
-                a.setContentText("Friend request sent!");
-                a.showAndWait();
-            }
-
-            }
-
-        else {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText("Please select an user!");
-            a.showAndWait();
-        }
-
-
-        }
-
-
-    public void btnHandleSearch(ActionEvent actionEvent) {
-            try{
-                List<User> users = new ArrayList<>();
-                users.add(service.getByUsername(txtSearchUser.getText().toString()));
-                model.setAll(users);
-
-            }
-            catch(RepoException repoException){
-                Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setContentText("User with given username does not exist!");
-                a.showAndWait();
-            }
-    }
-
-    public void handleBtnChat(ActionEvent actionEvent) {
-    }
 }

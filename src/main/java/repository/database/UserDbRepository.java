@@ -45,6 +45,23 @@ public class UserDbRepository implements Repository<Long, User> {
     return null;
     }
 
+
+    public Integer size(){
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) as nr from users");
+
+             ResultSet resultSet = statement.executeQuery()) {
+            resultSet.next();
+            return Integer.valueOf(resultSet.getInt("nr"));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+
+    }
+
+
     @Override
     public Iterable<User> findAll() {
         Set<User> users = new HashSet<>();

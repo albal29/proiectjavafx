@@ -29,6 +29,9 @@ public class MainService {
     }
 
     public User addUser(User entity) {
+
+        if(us.getbyusername(entity.getUserName())!=null)
+            throw new RepoException("Username is taken by another user!");
         return us.save(entity);
     }
 
