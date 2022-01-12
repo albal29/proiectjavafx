@@ -20,9 +20,9 @@ import java.net.URL;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FriendshipDbRepository r = new FriendshipDbRepository("jdbc:postgresql://localhost:5432/social_network_lab5", "postgres", "Pers2017", new FriendshipValidator());
-        UserDbRepository u = new UserDbRepository("jdbc:postgresql://localhost:5432/social_network_lab5", "postgres", "Pers2017", new UserValidator());
-        MessageDbRepository m = new MessageDbRepository("jdbc:postgresql://localhost:5432/social_network_lab5", "postgres", "Pers2017");
+        FriendshipDbRepository r = new FriendshipDbRepository("jdbc:postgresql://localhost:5432/social_network", "postgres", "897891iout", new FriendshipValidator());
+        UserDbRepository u = new UserDbRepository("jdbc:postgresql://localhost:5432/social_network", "postgres", "897891iout", new UserValidator());
+        MessageDbRepository m = new MessageDbRepository("jdbc:postgresql://localhost:5432/social_network", "postgres", "897891iout");
         MainService s = new MainService(new UserService(u), new FriendshipService(r),new MessageService(m));
         URL url = getClass().getClassLoader().getResource("login-view.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));
