@@ -22,7 +22,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FriendshipDbRepository r = new FriendshipDbRepository("jdbc:postgresql://localhost:5432/social_network", "postgres", "897891ioutz", new FriendshipValidator());
         UserDbRepository u = new UserDbRepository("jdbc:postgresql://localhost:5432/social_network", "postgres", "897891ioutz", new UserValidator());
-        MessageDbRepository m = new MessageDbRepository("jdbc:postgresql://localhost:5432/social_network_lab5", "postgres", "897891ioutz");
+        MessageDbRepository m = new MessageDbRepository("jdbc:postgresql://localhost:5432/social_network", "postgres", "897891ioutz");
         MainService s = new MainService(new UserService(u), new FriendshipService(r),new MessageService(m));
         URL url = getClass().getClassLoader().getResource("login-view.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));

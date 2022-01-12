@@ -1,16 +1,14 @@
 package com.example.proiectjavafx;
 
 import domain.Friendship;
+import domain.Message;
 import domain.Tuple;
 import domain.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import repository.RepoException;
@@ -34,6 +32,9 @@ public class FriendsController {
 
     @FXML
     private TableView<User> tableView;
+
+    @FXML
+    private TextArea txtMessage;
 
     public void setService(MainService service){
 
@@ -118,5 +119,22 @@ public class FriendsController {
     }
 
     public void handleBtnChat(ActionEvent actionEvent) {
+    }
+
+    public void handleBtnSend(ActionEvent actionEvent) {
+        ArrayList<User> list = new ArrayList<>();
+        list.addAll(tableView.getSelectionModel().getSelectedItems());
+        if(list.size()>0){
+            service.saveMsg(new Message(service.getByUsername(service.getCurrentUser()),list,txtMessage.getText(),null));
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("Message sent!");
+            a.showAndWait();
+        }
+
+        else{
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Please select minimum one user!");
+            a.showAndWait();
+        }
     }
 }

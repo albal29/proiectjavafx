@@ -151,6 +151,7 @@ public class MessageDbRepository implements Repository<Integer, Message> {
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("insert into chat(mid,uid) values(?,?)"))
         {
+
             for(User u: entity.getTo()){
                 statement.setInt(1,size());
                 statement.setInt(2,u.getId().intValue());

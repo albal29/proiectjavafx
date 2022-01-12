@@ -4,31 +4,34 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:controller="com.example.proiectjavafx.FriendsController" id="view-friends" prefHeight="416.0" prefWidth="299.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="view-friends" prefHeight="416.0" prefWidth="299.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proiectjavafx.FriendsController">
    <children>
-      <TableView fx:id="tableView" layoutX="-2.0" layoutY="-1.0" prefHeight="262.0" prefWidth="324.0">
+      <TableView fx:id="tableView" layoutX="-2.0" layoutY="-1.0" prefHeight="198.0" prefWidth="324.0">
          <columns>
             <TableColumn fx:id="firstNameColumn" prefWidth="160.00000607967377" text="First Name" />
             <TableColumn fx:id="lastNameColumn" prefWidth="163.20001220703125" text="Last Name" />
          </columns>
       </TableView>
-      <Button layoutX="114.0" layoutY="287.0" mnemonicParsing="false" onAction="#handleRemoveFriendButton" text="Remove Friend">
+      <Button layoutX="205.0" layoutY="205.0" mnemonicParsing="false" onAction="#handleRemoveFriendButton" prefHeight="28.0" prefWidth="102.0" text="Remove Friend">
          <font>
-            <Font name="Cambria" size="14.0" />
+            <Font name="Cambria" size="12.0" />
          </font>
       </Button>
-      <TextField fx:id="txtSearchUser" layoutX="86.0" layoutY="355.0" />
-      <Label layoutX="71.0" layoutY="328.0" prefHeight="19.0" prefWidth="179.0" text="Search user(enter username):">
+      <TextField fx:id="txtSearchUser" layoutX="28.0" layoutY="246.0" />
+      <Label layoutX="7.0" layoutY="219.0" prefHeight="19.0" prefWidth="179.0" text="Search user(enter username):">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutY="288.0" mnemonicParsing="false" onAction="#handlebtnAddFriend" prefHeight="26.0" prefWidth="102.0" text="Add Friend" />
-      <Button layoutX="134.0" layoutY="395.0" mnemonicParsing="false" onAction="#btnHandleSearch" text="Search" />
-      <Button layoutX="244.0" layoutY="287.0" mnemonicParsing="false" onAction="#handleBtnChat" prefHeight="28.0" prefWidth="66.0" text="Chat" />
+      <Button layoutX="205.0" layoutY="245.0" mnemonicParsing="false" onAction="#handlebtnAddFriend" prefHeight="26.0" prefWidth="102.0" text="Add Friend" />
+      <Button layoutX="77.0" layoutY="272.0" mnemonicParsing="false" onAction="#btnHandleSearch" text="Search" />
+      <Button layoutX="205.0" layoutY="284.0" mnemonicParsing="false" onAction="#handleBtnChat" prefHeight="28.0" prefWidth="102.0" text="Chat" />
+      <TextArea fx:id="txtMessage" layoutX="21.0" layoutY="319.0" prefHeight="82.0" prefWidth="162.0" promptText="Write your message here..." />
+      <Button layoutX="209.0" layoutY="348.0" mnemonicParsing="false" onAction="#handleBtnSend" prefHeight="26.0" prefWidth="96.0" text="Send" />
    </children>
 </AnchorPane>
