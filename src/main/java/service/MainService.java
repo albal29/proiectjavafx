@@ -158,6 +158,15 @@ public class MainService {
         return friendsToBe;
     }
 
+    public Iterable<Friendship> findFriendRequests(User user) {
+        List<Friendship> friendsToBe = new ArrayList<>();
+        fs.findAll().forEach(x -> {
+            if (x.getId().getRight().equals(user.getId()) || x.getId().getLeft().equals(user.getId()))
+                friendsToBe.add(x);
+        });
+        return friendsToBe;
+    }
+
     public Message saveMsg(Message entity) {
         return ms.save(entity);
     }

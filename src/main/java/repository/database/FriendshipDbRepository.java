@@ -121,8 +121,10 @@ public class FriendshipDbRepository implements Repository<Tuple<Long,Long>, Frie
 
     @Override
     public Friendship update(Friendship entity) {
-        delete(entity.getId());
-        save(entity);
-        return entity;
+        Friendship friendshipToUpdate = findOne(entity.getId());
+        if(friendshipToUpdate==null) throw new IllegalArgumentException("User with given id doesn't exist!");
+        validator.validate(entity);
+        String sql = "UPDATE friendships set idFriend=?,idOtherFriend=?, dateOfFriendship=? from friendships WHERE id =\'"+ entity.getId() + "\'";
+        return save(entity);
     }
 }

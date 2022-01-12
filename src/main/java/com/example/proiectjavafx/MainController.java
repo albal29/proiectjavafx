@@ -8,18 +8,26 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import repository.RepoException;
 import service.MainService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MainController {
+    @FXML
+    private AnchorPane view_friends;
+
     @FXML
     private Label usernameLbl,firstnameLbl,lastnameLbl;
 
@@ -58,6 +66,8 @@ public class MainController {
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("lastName"));
 
         tableView.setItems(model);
+
+
     }
 
     private void initModel() {
@@ -67,7 +77,15 @@ public class MainController {
 
 
 
-    public void handleBtnRequests(ActionEvent actionEvent) {
+    public void handleBtnRequests(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("friend-request.fxml"));
+
+        fxmlLoader.setRoot(view_friends);
+
+        fxmlLoader.load();
+
+        FriendRequestController mainController = fxmlLoader.getController();
+        mainController.setService(service);
     }
 
     public void handleBtnLogOut(ActionEvent actionEvent) throws IOException {
