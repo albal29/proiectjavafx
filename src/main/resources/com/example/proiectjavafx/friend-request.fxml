@@ -4,19 +4,30 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.text.Text?>
 
 <AnchorPane id="friend_requests" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proiectjavafx.FriendRequestController">
    <children>
-      <TableView fx:id="tableView" layoutX="-2.0" layoutY="9.0" prefHeight="262.0" prefWidth="334.0">
+      <TableView id="receivedRequests" fx:id="tableView" layoutX="-2.0" layoutY="25.0" prefHeight="147.0" prefWidth="334.0">
          <columns>
             <TableColumn fx:id="firstNameColumn" prefWidth="90.0" text="First Name" />
             <TableColumn fx:id="lastNameColumn" prefWidth="102.0" text="Last Name" />
-            <TableColumn prefWidth="75.0" text="Status" />
-            <TableColumn prefWidth="56.0" text="Date" />
+            <TableColumn fx:id="dateDTOColumn" prefWidth="56.0" text="Date" />
+            <TableColumn fx:id="statutDTOColumn" prefWidth="75.0" text="Status" />
          </columns>
       </TableView>
-      <Button layoutX="68.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleBtnRequestsAccept" prefHeight="25.0" prefWidth="69.0" text="Accept" />
-      <Button layoutX="213.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleBtnRequestsDeny" text="Decline" />
+      <Button layoutX="34.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleBtnRequestsAccept" prefHeight="25.0" prefWidth="69.0" text="Accept" />
+      <Button layoutX="137.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleBtnRequestsDeny" text="Decline" />
+      <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Received Friend Requests" wrappingWidth="154.748046875" />
+      <Text layoutX="13.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sent Friend Requests" wrappingWidth="111.98828125" />
+      <Button layoutX="236.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleBtnRequestsDelete" text="Delete" />
+      <TableView id="sentRequests" fx:id="sentRequestsView" layoutY="191.0" prefHeight="73.0" prefWidth="334.0">
+        <columns>
+          <TableColumn fx:id="fName" prefWidth="85.0" text="First Name" />
+          <TableColumn fx:id="lName" prefWidth="84.0" text="Last Name" />
+            <TableColumn fx:id="dateS" prefWidth="85.0" text="Date" />
+            <TableColumn fx:id="statusS" prefWidth="85.0" text="Status" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

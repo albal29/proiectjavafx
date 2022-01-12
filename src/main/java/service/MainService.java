@@ -21,16 +21,17 @@ public class MainService {
         this.ms = ms;
     }
 
-    public void setcurrentUser(String User){
+    public void setcurrentUser(String User) {
         this.currentUser = User;
     }
-    public String getCurrentUser(){
+
+    public String getCurrentUser() {
         return currentUser;
     }
 
     public User addUser(User entity) {
 
-        if(us.getbyusername(entity.getUserName())!=null)
+        if (us.getbyusername(entity.getUserName()) != null)
             throw new RepoException("Username is taken by another user!");
         return us.save(entity);
     }
@@ -48,7 +49,15 @@ public class MainService {
             if (f.getId().getLeft() == u.getId())
                 removeFriendship(new Tuple<>(u.getId(), f.getId().getRight()));
         }
-
+        for(Message message: ms.findAll()){
+            if(message.getFrom()!=null && message.getFrom().getId().equals(id)) {
+                ms.delete(message.getId());
+            }
+            for (User x:message.getTo()) {
+                if(x.getId().equals(id))
+                    ms.delete(message.getId());
+            }
+        }
 
         return u;
     }
@@ -97,7 +106,7 @@ public class MainService {
 
     }
 
-    public boolean logInToAccount(String username,String password) {
+    public boolean logInToAccount(String username, String password) {
 
         for (var user : findAllUsers()
         ) {
@@ -152,19 +161,19 @@ public class MainService {
         return us.update(u);
     }
 
-    public Iterable<Friendship> findPendingFriendships() {
-        Set<Friendship> friendsToBe = new HashSet<>();
-        fs.findAll().forEach(x -> {
-            if (x.getStatut().equals("Pending"))
-                friendsToBe.add(x);
-        });
-        return friendsToBe;
+    public boolean findPendingFriendship(Long id) {
+        for (Friendship f : fs.findAll()
+        ) {
+            if (f.getId().getLeft().equals(id) && f.getStatut().equals("Pending"))
+                return true;
+        }
+        return false;
     }
 
     public Iterable<Friendship> findFriendRequests(User user) {
         List<Friendship> friendsToBe = new ArrayList<>();
         fs.findAll().forEach(x -> {
-            if (x.getId().getRight().equals(user.getId()) || x.getId().getLeft().equals(user.getId()))
+            if ((x.getId().getRight().equals(user.getId()) || x.getId().getLeft().equals(user.getId())) && x.getStatut().equals("Pending"))
                 friendsToBe.add(x);
         });
         return friendsToBe;

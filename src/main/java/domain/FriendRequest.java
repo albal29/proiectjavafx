@@ -5,19 +5,19 @@ import java.time.LocalDateTime;
 public class FriendRequest {
     private String firstName;
     private String lastName;
-    private LocalDateTime date;
+    private LocalDateTime data;
     private String statut;
     private Tuple<Long, Long> id;
 
-    public FriendRequest(String firstName, String lastName, LocalDateTime date, String statut, Tuple<Long, Long> id) {
+    public FriendRequest(String firstName, String lastName, LocalDateTime data, String statut, Tuple<Long, Long> id) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.date = date;
+        this.data = data;
         this.statut = statut;
-        this.id=id;
+        this.id = id;
     }
 
-    public Tuple<Long, Long>getId(){
+    public Tuple<Long, Long> getId() {
         return id;
     }
 
@@ -29,8 +29,8 @@ public class FriendRequest {
         return lastName;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getData() {
+        return data;
     }
 
     public String getStatut() {

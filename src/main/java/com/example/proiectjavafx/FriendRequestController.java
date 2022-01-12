@@ -2,7 +2,6 @@ package com.example.proiectjavafx;
 
 import domain.FriendRequest;
 import domain.Friendship;
-import domain.Tuple;
 import domain.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,10 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import service.MainService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,75 +22,112 @@ public class FriendRequestController {
     private Label friendRequests;
     private User currentUser;
     private MainService mainService;
-    private ObservableList<FriendRequest> model= FXCollections.observableArrayList();
+    private ObservableList<FriendRequest> modelReceived = FXCollections.observableArrayList();
+    private ObservableList<FriendRequest> modelSent = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn firstNameColumn;
     @FXML
     private TableColumn lastNameColumn;
     @FXML
-    private TableColumn dateDTO;
+    private TableColumn dateDTOColumn;
     @FXML
-    private TableColumn statutDTO;
+    private TableColumn statutDTOColumn;
     @FXML
     private TableView<FriendRequest> tableView;
 
-    public void setService(MainService service){
-        mainService=service;
-        currentUser=mainService.findUser(mainService.getByUsername(mainService.getCurrentUser()).getId());
+    @FXML
+    private TableColumn fName;
+    @FXML
+    private TableColumn lName;
+    @FXML
+    private TableColumn dateS;
+    @FXML
+    private TableColumn statusS;
+    @FXML
+    private TableView<FriendRequest> sentRequestsView;
+
+    public void setService(MainService service) {
+        mainService = service;
+        currentUser = mainService.findUser(mainService.getByUsername(mainService.getCurrentUser()).getId());
         initModel();
     }
 
 
     @FXML
-    public void initialize(){
+    public void initialize() {
+        setCells(firstNameColumn, lastNameColumn, dateDTOColumn, statutDTOColumn, tableView, modelReceived);
 
+        setCells(fName, lName, dateS, statusS, sentRequestsView, modelSent);
     }
 
-    private void initModel(){
-        List<Friendship> requests = (List<Friendship>) mainService.findFriendRequests(currentUser);
-        List<FriendRequest> users = new ArrayList<>();
-        requests.forEach(x -> {
-            if (x.getId().getRight().equals(currentUser.getId())) {
-                users.add(new FriendRequest(mainService.findUser(x.getId().getLeft()).getFirstName(), mainService.findUser(x.getId().getLeft()).getLastName(), x.getDate(), x.getStatut(), x.getId()));
-            }
-        });
-        model.setAll(users);
-
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory("firstName"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory("lastName"));
-        /*dateDTO.setCellValueFactory(new PropertyValueFactory("date"));
-        statutDTO.setCellValueFactory(new PropertyValueFactory("statut"));*/
+    private void setCells(TableColumn firstNameColumn, TableColumn lastNameColumn, TableColumn dateDTOColumn, TableColumn statutDTOColumn, TableView<FriendRequest> tableView, ObservableList<FriendRequest> model) {
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<FriendRequest, String>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<FriendRequest, String>("lastName"));
+        dateDTOColumn.setCellValueFactory(new PropertyValueFactory<FriendRequest, LocalDateTime>("data"));
+        statutDTOColumn.setCellValueFactory(new PropertyValueFactory<FriendRequest, String>("statut"));
 
         tableView.setItems(model);
     }
 
-    public void handleBtnRequestsAccept(){
+
+    private void initModel() {
+        List<Friendship> requests = (List<Friendship>) mainService.findFriendRequests(currentUser);
+        List<FriendRequest> users = new ArrayList<>();
+        List<FriendRequest> usersTo = new ArrayList<>();
+        requests.forEach(x -> {
+            if (x.getId().getRight().equals(currentUser.getId())) {
+                users.add(new FriendRequest(mainService.findUser(x.getId().getLeft()).getFirstName(), mainService.findUser(x.getId().getLeft()).getLastName(), x.getDate(), x.getStatut(), x.getId()));
+            }
+            if(x.getId().getLeft().equals(currentUser.getId())){
+                usersTo.add(new FriendRequest(mainService.findUser(x.getId().getRight()).getFirstName(), mainService.findUser(x.getId().getRight()).getLastName(), x.getDate(), x.getStatut(), x.getId()));
+            }
+        });
+        modelReceived.setAll(users);
+        modelSent.setAll(usersTo);
+    }
+
+    public void handleBtnRequestsDeny() {
         FriendRequest selected = tableView.getSelectionModel().getSelectedItem();
-        if(selected != null){
-            Friendship friendship = mainService.findFrienship(selected.getId());
-            friendship.setStatut("");
+        if (selected != null) {
+            mainService.removeFriendship(selected.getId());
+            mainService.addFriendship(new Friendship(selected.getId().getLeft(), selected.getId().getRight(), "Declined"));
+            modelReceived.remove(selected);
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setContentText("Friend request deleted successfully!");
             a.showAndWait();
-        }
-        else {
+        } else {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("Please select a friend request!");
             a.showAndWait();
         }
     }
 
-    public void handleBtnRequestsDeny(){
+    public void handleBtnRequestsAccept() {
         FriendRequest selected = tableView.getSelectionModel().getSelectedItem();
-        if(selected != null){
-            Friendship friendship = mainService.findFrienship(selected.getId());
-            friendship.setStatut("Approved");
+        if (selected != null) {
+            mainService.removeFriendship(selected.getId());
+            mainService.addFriendship(new Friendship(selected.getId().getLeft(), selected.getId().getRight(), "Approved"));
+            modelReceived.remove(selected);
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setContentText("Friend request accepted successfully!");
             a.showAndWait();
+        } else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Please select a friend request!");
+            a.showAndWait();
         }
-        else {
+
+
+    }
+    public void handleBtnRequestsDelete(){
+        FriendRequest selected = sentRequestsView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            mainService.removeFriendship(selected.getId());
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("Friend request deleted successfully!");
+            a.showAndWait();
+        } else {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("Please select a friend request!");
             a.showAndWait();
