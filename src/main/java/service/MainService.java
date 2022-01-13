@@ -3,13 +3,14 @@ package service;
 import Networking.Networking;
 import domain.*;
 import domain.validation.ValidationException;
+import obs.Observable;
 import repository.RepoException;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class MainService {
+public class MainService extends Observable {
     UserService us;
     FriendshipService fs;
     MessageService ms;
@@ -75,6 +76,7 @@ public class MainService {
             throw new RepoException("Friendship must be between existent users!");
         }
         fs.save(f);
+        notifyobservers();
         return null;
     }
 
@@ -83,6 +85,7 @@ public class MainService {
         fs.delete(id);
         us.findOne(f.getId().getLeft()).remFriend(us.findOne(f.getId().getRight()));
         us.findOne(f.getId().getRight()).remFriend(us.findOne(f.getId().getLeft()));
+        notifyobservers();
         return f;
     }
 
@@ -180,7 +183,9 @@ public class MainService {
     }
 
     public Message saveMsg(Message entity) {
-        return ms.save(entity);
+        Message m = ms.save(entity);
+        notifyobservers();
+        return m;
     }
 
     public List<DTOchat> getChats(Long id1, Long id2) {

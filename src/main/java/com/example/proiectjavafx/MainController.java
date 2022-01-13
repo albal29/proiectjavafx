@@ -48,6 +48,9 @@ public class MainController {
         this.primaryStage = primaryStage;
     }
 
+    public void initRight(FXMLLoader loader) throws IOException {
+        this.rightSide.setCenter(loader.load());
+    }
 
     @FXML
     public void initModel() throws IOException {
@@ -55,6 +58,7 @@ public class MainController {
         rightSide.setCenter(fxmlLoader.load());
         FriendsController friendsController = fxmlLoader.getController();
         friendsController.setService(service);
+        friendsController.setRight(rightSide);
     }
 
 

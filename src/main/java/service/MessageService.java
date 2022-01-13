@@ -16,6 +16,7 @@ public class MessageService implements Service<Integer, Message>{
         this.rep = rep;
     }
 
+
     @Override
     public Message findOne(Integer integer) {
         return rep.findOne(integer);
@@ -47,8 +48,9 @@ public class MessageService implements Service<Integer, Message>{
                 .filter(m -> m.getFrom().getId() == id2 && m.getTo().stream().filter(x->x.getId()==id1).findAny().orElse(null)!=null)
                 .map(m -> new DTOchat(m.getId(),m.getFrom().getUserName(),m.getMessage(),m.getData(),m.getReply()))
                 .collect(Collectors.toList()));
-        Collections.sort(aux, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
-        return aux;
+        Collections.sort(aux, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+         Collections.reverse(aux);
+         return  aux;
     }
 
     @Override

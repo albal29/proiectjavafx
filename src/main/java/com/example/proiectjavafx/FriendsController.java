@@ -8,19 +8,28 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import obs.Observer;
 import repository.RepoException;
 import service.MainService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendsController {
+public class FriendsController extends Observer {
 
     private MainService service;
     ObservableList<User> model = FXCollections.observableArrayList();
+    private BorderPane right;
+
+    public void setRight(BorderPane right){
+        this.right = right;
+    }
 
     @FXML
     private TextField txtSearchUser;
@@ -39,6 +48,7 @@ public class FriendsController {
     public void setService(MainService service){
 
         this.service = service;
+        this.service.addObserver(this);
         initModel();
     }
 
@@ -86,7 +96,7 @@ public class FriendsController {
             }
 
             else{
-                service.addFriendship(new Friendship(selected.getId(),service.getByUsername(service.getCurrentUser()).getId()));
+                service.addFriendship(new Friendship(service.getByUsername(service.getCurrentUser()).getId(),selected.getId()));
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
                 a.setContentText("Friend request sent!");
                 a.showAndWait();
@@ -118,7 +128,22 @@ public class FriendsController {
         }
     }
 
-    public void handleBtnChat(ActionEvent actionEvent) {
+    public void handleBtnChat(ActionEvent actionEvent) throws IOException {
+        User selected = tableView.getSelectionModel().getSelectedItem();
+        if(selected != null){
+            service.remObserver(this);
+            FXMLLoader fxmlLoader2 = new FXMLLoader(Main.class.getResource("chat-view.fxml"));
+            right.setCenter(fxmlLoader2.load());
+            ChatController chatController = fxmlLoader2.getController();
+            chatController.setService(service,selected.getUserName());
+
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Please select an user!");
+            a.showAndWait();
+        }
+
     }
 
     public void handleBtnSend(ActionEvent actionEvent) {
@@ -136,5 +161,10 @@ public class FriendsController {
             a.setContentText("Please select minimum one user!");
             a.showAndWait();
         }
+    }
+
+    @Override
+    protected void update() {
+        initModel();
     }
 }

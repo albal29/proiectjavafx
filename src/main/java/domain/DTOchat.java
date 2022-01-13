@@ -15,6 +15,8 @@ public class DTOchat {
         this.message = message;
         this.date = date;
         this.reply = reply;
+        if(this.reply!=null)
+            this.userFrom += "(replying to: " + reply.getMessage() +")";
     }
 
     public int getId() {

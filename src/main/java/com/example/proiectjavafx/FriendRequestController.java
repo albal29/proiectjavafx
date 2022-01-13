@@ -11,13 +11,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import obs.Observer;
 import service.MainService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendRequestController {
+public class FriendRequestController extends Observer {
     @FXML
     private Label friendRequests;
     private User currentUser;
@@ -49,6 +50,7 @@ public class FriendRequestController {
 
     public void setService(MainService service) {
         mainService = service;
+        this.mainService.addObserver(this);
         currentUser = mainService.findUser(mainService.getByUsername(mainService.getCurrentUser()).getId());
         initModel();
     }
@@ -133,5 +135,11 @@ public class FriendRequestController {
             a.showAndWait();
         }
     }
+
+    @Override
+    protected void update() {
+        initModel();
+    }
+
 
 }
