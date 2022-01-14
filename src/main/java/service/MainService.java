@@ -14,12 +14,16 @@ public class MainService extends Observable {
     private final UserService us;
     private final FriendshipService fs;
     private final MessageService ms;
+    private final EvenimentService es;
+    private final InvitationsService is;
     String currentUser;
 
-    public MainService(UserService us, FriendshipService fs, MessageService ms) {
+    public MainService(UserService us, FriendshipService fs, MessageService ms, EvenimentService es, InvitationsService is) {
         this.us = us;
         this.fs = fs;
         this.ms = ms;
+        this.es = es;
+        this.is = is;
     }
 
     public void setcurrentUser(String User) {
@@ -230,6 +234,53 @@ public class MainService extends Observable {
             }
         });
         return users;
+    }
+
+    public Eveniment createEveniment(Eveniment eveniment) {
+        for (User u : findAllUsers()
+        ) {
+            is.save(new InvitationEveniment(getByUsername(getCurrentUser()), eveniment.getEventID(), u));
+        }
+        return es.save(eveniment);
+    }
+
+    public Eveniment deleteEveniment(int id) {
+        for (InvitationEveniment ie : is.findAll()
+        ) {
+            is.delete(id);
+        }
+        return deleteEveniment(id);
+    }
+
+    public Eveniment findEveniment(int id) {
+        return es.findOne(id);
+    }
+
+    public Iterable<Eveniment> findEvenimente() {
+        return es.findAll();
+    }
+
+    public Eveniment updateEveniment(Eveniment eveniment) {
+        return es.update(eveniment);
+    }
+
+    public InvitationEveniment saveInvitation(InvitationEveniment invitationEveniment) {
+        return is.save(invitationEveniment);
+    }
+
+    public InvitationEveniment updateInvitation(InvitationEveniment invitationEveniment) {
+        return is.update(invitationEveniment);
+    }
+
+    public List<Eveniment> getEventsByUser(User user) {
+        List<Eveniment> evenimentsByUser = new ArrayList<>();
+        for (Eveniment eveniment : es.findAll()
+        ) {
+            if (eveniment.getParticipants().contains(user))
+                evenimentsByUser.add(eveniment);
+
+        }
+        return evenimentsByUser;
     }
 
 }
