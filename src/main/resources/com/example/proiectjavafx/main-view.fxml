@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -34,6 +36,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
+            <Button layoutX="316.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleBtnEvents" prefHeight="32.0" prefWidth="98.0" styleClass="button8" stylesheets="@button.css" text="Events" />
          </children>
       </AnchorPane>
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="651.0">
@@ -61,6 +64,32 @@
                      </font>
                   </Label>
                   <Button layoutY="345.0" mnemonicParsing="false" onAction="#handleBtnLogOut" styleClass="button8" stylesheets="@button.css" text="Log Out" />
+                  <ImageView fitHeight="54.0" fitWidth="66.0" layoutX="8.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@reports.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="62.0" layoutY="92.0" prefHeight="30.0" prefWidth="91.0" text="Reports">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="firstDate" layoutX="6.0" layoutY="159.0" onAction="#handleFirstDate" prefHeight="26.0" prefWidth="111.0" />
+                  <DatePicker fx:id="secondDate" layoutX="132.0" layoutY="159.0" onAction="#handleSecondDate" prefHeight="26.0" prefWidth="111.0" />
+                  <ChoiceBox fx:id="friendSelection" layoutX="6.0" layoutY="229.0" prefHeight="28.0" prefWidth="111.0" />
+                  <ImageView fitHeight="37.0" fitWidth="43.0" layoutX="34.0" layoutY="192.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@user.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="38.0" layoutY="141.0" text="From">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="169.0" layoutY="141.0" text="To" wrapText="true" />
+                  <Button fx:id="messagesBtn" layoutX="137.0" layoutY="231.0" mnemonicParsing="false" onAction="#handleBtnMessagesReports" prefHeight="30.0" prefWidth="111.0" text="Messages" />
+                  <Button fx:id="activitiesBtn" layoutX="137.0" layoutY="285.0" mnemonicParsing="false" onAction="#handleBtnActivitiesReports" prefHeight="30.0" prefWidth="111.0" text="Activities" />
                </children>
             </AnchorPane>
             <BorderPane fx:id="rightSide" prefHeight="371.0" prefWidth="419.0" style="-fx-background-color: ADD8E6;" />

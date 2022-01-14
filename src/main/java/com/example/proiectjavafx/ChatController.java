@@ -49,7 +49,6 @@ public class ChatController extends Observer {
     public void initialize() {
         whoColumn.setCellValueFactory(new PropertyValueFactory<>("userFrom"));
         textColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
-
         tableView.setItems(model);
 
 

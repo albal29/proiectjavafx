@@ -5,27 +5,50 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="view-friends" prefHeight="416.0" prefWidth="299.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proiectjavafx.ChatController">
+<AnchorPane id="view-friends" prefHeight="371.0" prefWidth="419.0" style="-fx-background-color: ADD8E6;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proiectjavafx.ChatController">
    <children>
-      <TableView fx:id="tableView" layoutX="-2.0" layoutY="-1.0" prefHeight="246.0" prefWidth="324.0">
+      <TableView fx:id="tableView" layoutX="-1.0" prefHeight="216.0" prefWidth="419.0">
          <columns>
-            <TableColumn fx:id="whoColumn" prefWidth="160.00000607967377" text="Who?" />
-            <TableColumn fx:id="textColumn" prefWidth="163.20001220703125" text="Text" />
+            <TableColumn fx:id="whoColumn" prefWidth="211.19994509220123" text="Who?" />
+            <TableColumn fx:id="textColumn" prefWidth="208.0" text="Text" />
          </columns>
       </TableView>
-      <Button layoutX="14.0" layoutY="258.0" mnemonicParsing="false" onAction="#handleBtnReply" prefHeight="28.0" prefWidth="92.0" text="Reply" />
-      <Label layoutX="5.0" layoutY="297.0" prefHeight="19.0" prefWidth="179.0" text="Write your message!">
+      <Button layoutX="105.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleBtnReply" prefHeight="28.0" prefWidth="131.0" styleClass="button8" stylesheets="@button.css" text="Reply" />
+      <Label layoutX="11.0" layoutY="223.0" prefHeight="19.0" prefWidth="179.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="184.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleBtnSend" prefHeight="28.0" prefWidth="102.0" text="Send" />
-      <Button layoutX="122.0" layoutY="258.0" mnemonicParsing="false" onAction="#handleBtnReplyAll" prefHeight="28.0" prefWidth="92.0" text="ReplyAll" />
-      <TextArea fx:id="txtMessage" layoutX="11.0" layoutY="329.0" prefHeight="74.0" prefWidth="166.0" />
-      <Button layoutX="230.0" layoutY="258.0" mnemonicParsing="false" onAction="#handleBtnDelete" prefHeight="28.0" prefWidth="92.0" text="Delete" />
-      <Button layoutX="230.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleBtnRefresh" prefHeight="26.0" prefWidth="92.0" text="Refresh" />
+      <Button layoutX="105.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleBtnSend" prefHeight="28.0" prefWidth="131.0" styleClass="button8" stylesheets="@button.css" text="Send" />
+      <Button layoutX="105.0" layoutY="374.0" mnemonicParsing="false" onAction="#handleBtnReplyAll" prefHeight="28.0" prefWidth="131.0" styleClass="button8" stylesheets="@button.css" text="ReplyAll" />
+      <TextArea fx:id="txtMessage" layoutX="16.0" layoutY="223.0" prefHeight="74.0" prefWidth="220.0" promptText="Write your message.." />
+      <Button layoutX="312.0" layoutY="261.0" mnemonicParsing="false" onAction="#handleBtnDelete" prefHeight="44.0" prefWidth="99.0" styleClass="button8" stylesheets="@button.css" text="Delete">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Button layoutX="315.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleBtnRefresh" prefHeight="44.0" prefWidth="99.0" styleClass="button8" stylesheets="@button.css" text="Refresh">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <ImageView fitHeight="125.0" fitWidth="85.0" layoutX="11.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@chat.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="35.0" fitWidth="57.0" layoutX="344.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@delete.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="35.0" fitWidth="57.0" layoutX="344.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@refresh.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

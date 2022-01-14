@@ -6,10 +6,12 @@ import domain.Tuple;
 import domain.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import obs.Observer;
 import repository.RepoException;
@@ -18,6 +20,9 @@ import service.MainService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javafx.scene.control.SelectionMode.MULTIPLE;
+import static javafx.scene.control.SelectionMode.values;
 
 public class FriendsController extends Observer {
 
@@ -60,11 +65,19 @@ public class FriendsController extends Observer {
     public void initialize() {
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-
+        tableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            }
+        });
         tableView.setItems(model);
 
 
     }
+
+
+
 
     public void handleRemoveFriendButton() {
         User selected = tableView.getSelectionModel().getSelectedItem();
