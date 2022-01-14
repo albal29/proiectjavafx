@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="281.0" prefWidth="471.0" style="-fx-background-color: #33FFBD;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proiectjavafx.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="282.0" prefWidth="428.0" style="-fx-background-color: ADD8E6;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proiectjavafx.LoginController">
    <children>
-      <Button alignment="CENTER" layoutX="196.0" layoutY="167.0" mnemonicParsing="false" onAction="#handleLoginButton" text="Login">
+      <Button alignment="CENTER" layoutX="181.0" layoutY="169.0" mnemonicParsing="false" onAction="#handleLoginButton" styleClass="button8" stylesheets="@button.css" text="Login">
          <font>
             <Font name="Cambria" size="20.0" />
          </font>
@@ -32,7 +32,7 @@
             <Font name="Cambria" size="22.0" />
          </font>
       </Label>
-      <Button layoutX="192.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleBtnSignIn" text="Sign In">
+      <Button layoutX="175.0" layoutY="213.0" mnemonicParsing="false" onAction="#handleBtnSignIn" styleClass="button8" stylesheets="@button.css" text="Sign In">
          <font>
             <Font name="Cambria" size="20.0" />
          </font>
