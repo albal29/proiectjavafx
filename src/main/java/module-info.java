@@ -6,6 +6,7 @@ module com.example.proiectjavafx {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires org.apache.pdfbox;
 
     opens com.example.proiectjavafx to javafx.fxml, javafx.base, javafx.graphics;
     exports com.example.proiectjavafx;

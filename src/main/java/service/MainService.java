@@ -2,10 +2,10 @@ package service;
 
 import Networking.Networking;
 import domain.*;
-import domain.validation.ValidationException;
 import obs.Observable;
 import repository.RepoException;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -50,12 +50,12 @@ public class MainService extends Observable {
             if (f.getId().getLeft() == u.getId())
                 removeFriendship(new Tuple<>(u.getId(), f.getId().getRight()));
         }
-        for(Message message: ms.findAll()){
-            if(message.getFrom()!=null && message.getFrom().getId().equals(id)) {
+        for (Message message : ms.findAll()) {
+            if (message.getFrom() != null && message.getFrom().getId().equals(id)) {
                 ms.delete(message.getId());
             }
-            for (User x:message.getTo()) {
-                if(x.getId().equals(id))
+            for (User x : message.getTo()) {
+                if (x.getId().equals(id))
                     ms.delete(message.getId());
             }
         }
@@ -143,16 +143,7 @@ public class MainService extends Observable {
                 .stream()
                 .filter(x -> x.getDate().getMonth().toString().equalsIgnoreCase((month)) && x.getStatut().equals("Approved") || (x.getId().getLeft().equals(id) || x.getId().getRight().equals(id)))
                 .collect(Collectors.toList());
-        List<DTO> users = new ArrayList<>();
-        friendships.forEach(x -> {
-            if (x.getId().getLeft().equals(id)) {
-                users.add(new DTO(findUser(x.getId().getRight()).getFirstName(), findUser(x.getId().getRight()).getLastName(), x.getDate()));
-            }
-            if (x.getId().getRight().equals(id)) {
-                users.add(new DTO(findUser(x.getId().getLeft()).getFirstName(), findUser(x.getId().getLeft()).getLastName(), x.getDate()));
-            }
-        });
-        return users;
+        return getDtos(id, friendships);
     }
 
     public User updateUser(Long id, String fName, String lName, String password) {
@@ -182,6 +173,39 @@ public class MainService extends Observable {
         return friendsToBe;
     }
 
+    public List<DTO> getUserFriendsByMonth(Long id, LocalDate firstDate, LocalDate secondDate) {
+        List<Friendship> friendships = StreamSupport
+                .stream(findAllFriendships().spliterator(), false)
+                .collect(Collectors.toList())
+                .stream()
+                .filter(x -> x.getDate().toLocalDate().isAfter(firstDate) && x.getDate().toLocalDate().isBefore(secondDate) && x.getStatut().equals("Approved") || (x.getId().getLeft().equals(id) || x.getId().getRight().equals(id)))
+                .collect(Collectors.toList());
+        return getDtos(id, friendships);
+    }
+
+    public List<Message> getMessageToUser(User user, LocalDate firstDate, LocalDate secondDate) {
+        List<Message> messageList = new ArrayList<>();
+        for (Message message : ms.findAll()
+        ) {
+            if (message.getData().toLocalDate().isAfter(firstDate) && message.getData().toLocalDate().isBefore(secondDate) && message.getTo().contains(user)) {
+                messageList.add(message);
+            }
+        }
+        return messageList;
+    }
+
+    public List<Message> getMessageToUserBySpecificFriend(User user, User userFriend, LocalDate firstDate, LocalDate secondDate) {
+        List<Message> messageListBySpecificFriend = new ArrayList<>();
+        for (Message message : getMessageToUser(user, firstDate, secondDate)
+        ) {
+            if (message.getFrom().equals(userFriend)) {
+                messageListBySpecificFriend.add(message);
+            }
+        }
+        return messageListBySpecificFriend;
+    }
+
+
     public Message saveMsg(Message entity) {
         Message m = ms.save(entity);
         notifyobservers();
@@ -202,5 +226,22 @@ public class MainService extends Observable {
 
     public Friendship updateFriendship(Friendship f) {
         return fs.update(f);
+    }
+
+    private List<DTO> getDtos(Long id, List<Friendship> friendships) {
+        List<DTO> users = new ArrayList<>();
+        friendships.forEach(x -> {
+            if (x.getId().getLeft().equals(id)) {
+                users.add(new DTO(findUser(x.getId().getRight()).getFirstName(), findUser(x.getId().getRight()).getLastName(), x.getDate()));
+            }
+            if (x.getId().getRight().equals(id)) {
+                users.add(new DTO(findUser(x.getId().getLeft()).getFirstName(), findUser(x.getId().getLeft()).getLastName(), x.getDate()));
+            }
+        });
+        return users;
+    }
+
+    private boolean checkIfUserIsReceived(User user, List<User> users){
+        return users.contains(user);
     }
 }
