@@ -18,7 +18,7 @@
          </columns>
       </TableView>
       <Button layoutX="333.0" layoutY="89.0" mnemonicParsing="false" onAction="#handleBtnRequestsAccept" prefHeight="26.0" prefWidth="81.0" styleClass="button8" stylesheets="@button.css" text="Accept" />
-      <Button layoutX="332.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleBtnRequestsDeny" prefHeight="26.0" prefWidth="82.0" styleClass="button8" stylesheets="@button.css" text="Decline" />
+      <Button layoutX="332.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleBtnRequestsDeny" prefHeight="26.0" prefWidth="81.0" styleClass="button8" stylesheets="@button.css" text="Decline" />
       <Button layoutX="354.0" layoutY="261.0" mnemonicParsing="false" onAction="#handleBtnRequestsDelete" text="Delete" />
       <TableView id="sentRequests" fx:id="sentRequestsView" layoutY="191.0" prefHeight="166.0" prefWidth="326.0">
         <columns>

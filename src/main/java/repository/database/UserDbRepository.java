@@ -1,18 +1,19 @@
 package repository.database;
+
 import domain.validation.Validator;
 import repository.RepoException;
 import repository.Repository;
 import domain.*;
+
 import java.sql.*;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 public class UserDbRepository implements Repository<Long, User> {
-    private String url;
-    private String username;
-    private String password;
-    private Validator<User> validator;
+    private final String url;
+    private final String username;
+    private final String password;
+    private final Validator<User> validator;
 
     public UserDbRepository(String url, String username, String password, Validator<User> validator) {
         this.url = url;
@@ -20,41 +21,39 @@ public class UserDbRepository implements Repository<Long, User> {
         this.password = password;
         this.validator = validator;
     }
+
     @Override
     public User findOne(Long aLong) {
         final int aux = Integer.parseInt(aLong.toString());
         try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement("SELECT * from users u WHERE u.id=\'"+ aLong.intValue() + "\'");
+             PreparedStatement statement = connection.prepareStatement("SELECT * from users u WHERE u.id='" + aLong.intValue() + "'");
 
              ResultSet resultSet = statement.executeQuery()) {
-                    if(resultSet.next()){
+            if (resultSet.next()) {
 
-                        Integer id = resultSet.getInt("id");
-                        String firstName = resultSet.getString("firstName");
-                        String lastName = resultSet.getString("lastName");
-                        String username = resultSet.getString("username");
-                        String email = resultSet.getString("email");
-                        String password = resultSet.getString("password");
-                        User user = new User(Long.valueOf(id),firstName,lastName,username,email,password);
-                        return user;
-                    }
+                int id = resultSet.getInt("id");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                return new User((long) id, firstName, lastName, username, email, password);
             }
-         catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-    return null;
+        return null;
     }
 
 
-    public Integer size(){
+    public Integer size() {
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) as nr from users");
 
              ResultSet resultSet = statement.executeQuery()) {
             resultSet.next();
-            return Integer.valueOf(resultSet.getInt("nr"));
-        }
-        catch (SQLException e) {
+            return resultSet.getInt("nr");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
@@ -70,14 +69,14 @@ public class UserDbRepository implements Repository<Long, User> {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
+                int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
                 String username = resultSet.getString("username");
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
-                User user = new User(Long.valueOf(id),firstName,lastName,username,email,password);
-               users.add(user);
+                User user = new User((long) id, firstName, lastName, username, email, password);
+                users.add(user);
 
             }
             return users;
@@ -90,19 +89,19 @@ public class UserDbRepository implements Repository<Long, User> {
     @Override
     public User save(User entity) {
         User u = findOne(entity.getId());
-        if(u!=null)
+        if (u != null)
             throw new RepoException("User already exists!");
         String sql = "insert into users values (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
             validator.validate(entity);
-            ps.setInt(1,entity.getId().intValue());
+            ps.setInt(1, entity.getId().intValue());
             ps.setString(2, entity.getFirstName());
             ps.setString(3, entity.getLastName());
-            ps.setString(4,entity.getUserName());
-            ps.setString(5,entity.geteMail());
-            ps.setString(6,entity.getPassword());
+            ps.setString(4, entity.getUserName());
+            ps.setString(5, entity.geteMail());
+            ps.setString(6, entity.getPassword());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,17 +113,15 @@ public class UserDbRepository implements Repository<Long, User> {
     public User delete(Long aLong) {
         User u = findOne(aLong);
         int aux = aLong.intValue();
-        if(u==null)
+        if (u == null)
             throw new RepoException("User with given id doesn't exist!");
         String sql = "delete from users u WHERE u.id=?";
         try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement(sql)){
-            statement.setInt(1,aux);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, aux);
             statement.executeUpdate();
             return u;
-        }
-
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return u;
@@ -133,15 +130,15 @@ public class UserDbRepository implements Repository<Long, User> {
     @Override
     public User update(User entity) {
         User u = findOne(entity.getId());
-        if(u==null) throw new RepoException("User with given id doesn't exist!");
+        if (u == null) throw new RepoException("User with given id doesn't exist!");
         validator.validate(entity);
-        String sql = "UPDATE users set firstName=?,lastName=?, password=? from users WHERE id =\'"+ entity.getId().intValue() + "\'";
+        String sql = "UPDATE users set firstName=?,lastName=?, password=? from users WHERE id ='" + entity.getId().intValue() + "'";
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
             validator.validate(entity);
             ps.setString(1, entity.getFirstName());
             ps.setString(2, entity.getLastName());
-            ps.setString(3,entity.getPassword());
+            ps.setString(3, entity.getPassword());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

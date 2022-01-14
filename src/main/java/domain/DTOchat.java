@@ -15,8 +15,8 @@ public class DTOchat {
         this.message = message;
         this.date = date;
         this.reply = reply;
-        if(this.reply!=null)
-            this.userFrom += "(replying to: " + reply.getMessage() +")";
+        if (this.reply != null)
+            this.userFrom += "(replying to: " + reply.getMessage() + ")";
     }
 
     public int getId() {
@@ -61,9 +61,9 @@ public class DTOchat {
 
     @Override
     public String toString() {
-        String s = "("+id+")"+userFrom+":";
-        if(reply!=null) s = s + "(replying to '"+ reply.getMessage() +"')" +"\n";
-            else s += "\n";
+        String s = "(" + id + ")" + userFrom + ":";
+        if (reply != null) s = s + "(replying to '" + reply.getMessage() + "')" + "\n";
+        else s += "\n";
         s = s + message;
         return s;
     }

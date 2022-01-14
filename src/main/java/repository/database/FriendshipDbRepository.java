@@ -2,7 +2,6 @@ package repository.database;
 
 import domain.Friendship;
 import domain.Tuple;
-import domain.User;
 import domain.validation.Validator;
 import repository.RepoException;
 import repository.Repository;
@@ -13,10 +12,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FriendshipDbRepository implements Repository<Tuple<Long, Long>, Friendship> {
-    private String url;
-    private String username;
-    private String password;
-    private Validator<Friendship> validator;
+    private final String url;
+    private final String username;
+    private final String password;
+    private final Validator<Friendship> validator;
 
     public FriendshipDbRepository(String url, String username, String password, Validator<Friendship> validator) {
         this.url = url;
@@ -31,17 +30,16 @@ public class FriendshipDbRepository implements Repository<Tuple<Long, Long>, Fri
         final int aux1 = Integer.parseInt(longLongTuple.getLeft().toString());
         final int aux2 = Integer.parseInt(longLongTuple.getRight().toString());
         try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement("SELECT * from friendships f WHERE f.id1=\'" + aux1 + "\' and f.id2=\'" + aux2 + "\'");
+             PreparedStatement statement = connection.prepareStatement("SELECT * from friendships f WHERE f.id1='" + aux1 + "' and f.id2='" + aux2 + "'");
 
              ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
 
-                Integer id1 = resultSet.getInt("id1");
-                Integer id2 = resultSet.getInt("id2");
+                int id1 = resultSet.getInt("id1");
+                int id2 = resultSet.getInt("id2");
                 String date = resultSet.getString("date");
                 String statut = resultSet.getString("statut");
-                Friendship f = new Friendship(Long.valueOf(id1), Long.valueOf(id2), LocalDateTime.parse(date), statut);
-                return f;
+                return new Friendship((long) id1, (long) id2, LocalDateTime.parse(date), statut);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,11 +57,11 @@ public class FriendshipDbRepository implements Repository<Tuple<Long, Long>, Fri
 
             while (resultSet.next()) {
 
-                Integer id1 = resultSet.getInt("id1");
-                Integer id2 = resultSet.getInt("id2");
+                int id1 = resultSet.getInt("id1");
+                int id2 = resultSet.getInt("id2");
                 String date = resultSet.getString("date");
                 String statut = resultSet.getString("statut");
-                Friendship f = new Friendship(Long.valueOf(id1), Long.valueOf(id2), LocalDateTime.parse(date), statut);
+                Friendship f = new Friendship((long) id1, (long) id2, LocalDateTime.parse(date), statut);
                 friends.add(f);
             }
             return friends;
@@ -121,7 +119,7 @@ public class FriendshipDbRepository implements Repository<Tuple<Long, Long>, Fri
         Friendship friendshipToUpdate = findOne(entity.getId());
         if (friendshipToUpdate == null) throw new IllegalArgumentException("User with given id doesn't exist!");
         validator.validate(entity);
-        String sql = "UPDATE friendships set idFriend=?,idOtherFriend=?, dateOfFriendship=? from friendships WHERE id =\'" + entity.getId() + "\'";
+        String sql = "UPDATE friendships set idFriend=?,idOtherFriend=?, dateOfFriendship=? from friendships WHERE id ='" + entity.getId() + "'";
         return save(entity);
     }
 }

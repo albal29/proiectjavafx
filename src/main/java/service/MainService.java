@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class MainService extends Observable {
-    UserService us;
-    FriendshipService fs;
-    MessageService ms;
+    private final UserService us;
+    private final FriendshipService fs;
+    private final MessageService ms;
     String currentUser;
 
     public MainService(UserService us, FriendshipService fs, MessageService ms) {
@@ -45,9 +45,9 @@ public class MainService extends Observable {
         User u = us.delete(id);
 
         for (Friendship f : findAllFriendships()) {
-            if (f.getId().getRight() == u.getId())
+            if (f.getId().getRight().equals(u.getId()))
                 removeFriendship(new Tuple<>(f.getId().getLeft(), u.getId()));
-            if (f.getId().getLeft() == u.getId())
+            if (f.getId().getLeft().equals(u.getId()))
                 removeFriendship(new Tuple<>(u.getId(), f.getId().getRight()));
         }
         for (Message message : ms.findAll()) {
@@ -123,14 +123,14 @@ public class MainService extends Observable {
 
 
     public List<User> getUserFriends(Long id) {
-        List<Friendship> friendships = new ArrayList<Friendship>();
+        List<Friendship> friendships = new ArrayList<>();
         findAllFriendships().forEach(friendships::add);
         List<User> friends = friendships.stream()
-                .filter(f -> f.getId().getLeft() == id && f.getStatut().equals("Approved"))
+                .filter(f -> f.getId().getLeft().equals(id) && f.getStatut().equals("Approved"))
                 .map(f -> findUser(f.getId().getRight()))
                 .collect(Collectors.toList());
         friends.addAll(friendships.stream()
-                .filter(f -> f.getId().getRight() == id && f.getStatut().equals("Approved"))
+                .filter(f -> f.getId().getRight().equals(id) && f.getStatut().equals("Approved"))
                 .map(f -> findUser(f.getId().getLeft()))
                 .collect(Collectors.toList()));
         return friends;
@@ -153,15 +153,6 @@ public class MainService extends Observable {
         u.setLastName(lName);
         u.setPassword(password);
         return us.update(u);
-    }
-
-    public boolean findPendingFriendship(Long id) {
-        for (Friendship f : fs.findAll()
-        ) {
-            if (f.getId().getLeft().equals(id) && f.getStatut().equals("Pending"))
-                return true;
-        }
-        return false;
     }
 
     public Iterable<Friendship> findFriendRequests(User user) {
@@ -241,7 +232,4 @@ public class MainService extends Observable {
         return users;
     }
 
-    private boolean checkIfUserIsReceived(User user, List<User> users){
-        return users.contains(user);
-    }
 }

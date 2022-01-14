@@ -3,16 +3,17 @@ package obs;
 import java.util.ArrayList;
 
 public class Observable {
-    private ArrayList<Observer> lst = new ArrayList<>();
+    private final ArrayList<Observer> lst = new ArrayList<>();
 
-    public void addObserver(Observer o){
+    public void addObserver(Observer o) {
         lst.add(o);
     }
-    public void remObserver(Observer o){
+
+    public void remObserver(Observer o) {
         lst.remove(o);
     }
 
-    public void notifyobservers(){
-        lst.forEach(x->x.update());
+    public void notifyobservers() {
+        lst.forEach(Observer::update);
     }
 }

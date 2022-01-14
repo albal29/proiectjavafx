@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * Define a Tuple o generic type entities
+ *
  * @param <E1> - tuple first entity type
  * @param <E2> - tuple second entity type
  */
@@ -43,7 +44,7 @@ public class Tuple<E1, E2> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tuple<?, ?> tuple = (Tuple<?, ?>) o;
-        return (e1.equals(tuple.e1) && e2.equals(tuple.e2))||(e1.equals(tuple.e2) && e2.equals(tuple.e1));
+        return (e1.equals(tuple.e1) && e2.equals(tuple.e2)) || (e1.equals(tuple.e2) && e2.equals(tuple.e1));
     }
 
     @Override

@@ -4,9 +4,9 @@ import domain.Friendship;
 import domain.Tuple;
 import repository.Repository;
 
-public class FriendshipService implements Service<Tuple<Long,Long>, Friendship>{
+public class FriendshipService implements Service<Tuple<Long, Long>, Friendship> {
 
-    Repository<Tuple<Long,Long>,Friendship> rep;
+    private final Repository<Tuple<Long, Long>, Friendship> rep;
 
     public FriendshipService(Repository<Tuple<Long, Long>, Friendship> rep) {
         this.rep = rep;

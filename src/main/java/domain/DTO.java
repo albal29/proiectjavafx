@@ -28,10 +28,9 @@ public class DTO {
     }
 
 
-
     @Override
     public String toString() {
-        return "First name: "+ firstName + " | " + "Last name: " + lastName + " | " + "Date: " + date.toString();
+        return "First name: " + firstName + " | " + "Last name: " + lastName + " | " + "Date: " + date.toString();
     }
 }
 

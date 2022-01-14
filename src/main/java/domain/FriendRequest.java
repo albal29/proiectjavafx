@@ -3,11 +3,11 @@ package domain;
 import java.time.LocalDateTime;
 
 public class FriendRequest {
-    private String firstName;
-    private String lastName;
-    private LocalDateTime data;
-    private String statut;
-    private Tuple<Long, Long> id;
+    private final String firstName;
+    private final String lastName;
+    private final LocalDateTime data;
+    private final String statut;
+    private final Tuple<Long, Long> id;
 
     public FriendRequest(String firstName, String lastName, LocalDateTime data, String statut, Tuple<Long, Long> id) {
         this.firstName = firstName;

@@ -3,7 +3,7 @@ package domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Message extends Entity<Integer>{
+public class Message extends Entity<Integer> {
     User from;
     List<User> to;
     LocalDateTime data;
@@ -17,7 +17,8 @@ public class Message extends Entity<Integer>{
         this.message = message;
         this.reply = reply;
     }
-    public Message(int id,User from, List<User> to, LocalDateTime data, String message, Message reply) {
+
+    public Message(int id, User from, List<User> to, LocalDateTime data, String message, Message reply) {
         this.from = from;
         this.to = to;
         this.data = data;
@@ -25,7 +26,8 @@ public class Message extends Entity<Integer>{
         this.reply = reply;
         this.setId(id);
     }
-    public Message(){
+
+    public Message() {
 
     }
 

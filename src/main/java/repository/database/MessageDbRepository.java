@@ -24,19 +24,18 @@ public class MessageDbRepository implements Repository<Integer, Message> {
     public User getUser(Integer id) {
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement("SELECT * from users u WHERE u.id=\'" + id + "\'");
+             PreparedStatement statement = connection.prepareStatement("SELECT * from users u WHERE u.id='" + id + "'");
 
              ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
 
-                Integer uid = resultSet.getInt("id");
+                int uid = resultSet.getInt("id");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
                 String username = resultSet.getString("username");
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
-                User user = new User(Long.valueOf(uid), firstName, lastName, username, email, password);
-                return user;
+                return new User((long) uid, firstName, lastName, username, email, password);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,23 +46,22 @@ public class MessageDbRepository implements Repository<Integer, Message> {
 
     @Override
     public Message findOne(Integer integer) {
-        String sql = "select * from messages m where m.id=\'" + integer + "\'";
+        String sql = "select * from messages m where m.id='" + integer + "'";
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
+                int id = resultSet.getInt("id");
                 String message = resultSet.getString("text");
                 LocalDateTime date = LocalDateTime.parse(resultSet.getString("date"));
-                Integer from = resultSet.getInt("from");
-                Integer reply = resultSet.getInt("reply");
+                int from = resultSet.getInt("from");
+                int reply = resultSet.getInt("reply");
                 Message mreply = new Message();
                 if (reply == -1) mreply = null;
                 else mreply = findOne(reply);
 
-                Message m = new Message(id, getUser(from), getMessageReceivers(id), date, message, mreply);
-                return m;
+                return new Message(id, getUser(from), getMessageReceivers(id), date, message, mreply);
             }
 
         } catch (SQLException e) {
@@ -74,20 +72,20 @@ public class MessageDbRepository implements Repository<Integer, Message> {
 
     public List<User> getMessageReceivers(Integer mid) {
         ArrayList<User> users = new ArrayList<>();
-        String sql = "select * from users u inner join chat c on c.uid=u.id where c.mid=\'" + mid + "\'";
+        String sql = "select * from users u inner join chat c on c.uid=u.id where c.mid='" + mid + "'";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
+                int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
                 String username = resultSet.getString("username");
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
-                User user = new User(Long.valueOf(id), firstName, lastName, username, email, password);
+                User user = new User((long) id, firstName, lastName, username, email, password);
                 users.add(user);
 
             }
@@ -107,11 +105,11 @@ public class MessageDbRepository implements Repository<Integer, Message> {
 
             while (resultSet.next()) {
 
-                Integer id = resultSet.getInt("id");
+                int id = resultSet.getInt("id");
                 String message = resultSet.getString("text");
                 LocalDateTime date = LocalDateTime.parse(resultSet.getString("date"));
-                Integer from = resultSet.getInt("from");
-                Integer reply = resultSet.getInt("reply");
+                int from = resultSet.getInt("from");
+                int reply = resultSet.getInt("reply");
                 Message mreply = new Message();
                 if (reply == -1) mreply = null;
                 else mreply = findOne(reply);
@@ -130,7 +128,7 @@ public class MessageDbRepository implements Repository<Integer, Message> {
 
              ResultSet resultSet = statement.executeQuery()) {
             resultSet.next();
-            return Integer.valueOf(resultSet.getInt("nr"));
+            return resultSet.getInt("nr");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,6 @@
 package com.example.proiectjavafx;
 
 import domain.User;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,18 +18,23 @@ public class SignInController {
     private MainService service;
 
     @FXML
-    private TextField txtUsername,txtFirstname,txtLastname,txtEmail;
+    private TextField txtUsername, txtFirstname, txtLastname, txtEmail;
     @FXML
     private PasswordField txtPassword;
 
-    public void setService(MainService service){
+    public void setService(MainService service) {
         this.service = service;
     }
-    public void setStage(Stage stage){
+
+    public void setStage(Stage stage) {
         this.primaryStage = stage;
     }
 
-    public void handleBtnBack(ActionEvent actionEvent) throws IOException {
+    public void handleBtnBack() throws IOException {
+        setLogInPage();
+    }
+
+    private void setLogInPage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Login");
@@ -40,21 +44,14 @@ public class SignInController {
         loginController.setStage(primaryStage);
     }
 
-    public void handleBtnRegister(ActionEvent actionEvent) throws IOException {
-        try{
-            service.addUser(new User(txtFirstname.getText(),txtLastname.getText(),txtUsername.getText(),txtEmail.getText(),txtPassword.getText()));
+    public void handleBtnRegister() throws IOException {
+        try {
+            service.addUser(new User(txtFirstname.getText(), txtLastname.getText(), txtUsername.getText(), txtEmail.getText(), txtPassword.getText()));
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setContentText("Account created!");
             a.showAndWait();
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            primaryStage.setTitle("Login");
-            primaryStage.setScene(scene);
-            LoginController loginController = fxmlLoader.getController();
-            loginController.setService(service);
-            loginController.setStage(primaryStage);
-        }
-        catch (RepoException ex){
+            setLogInPage();
+        } catch (RepoException ex) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText(ex.getMessage());
             a.showAndWait();

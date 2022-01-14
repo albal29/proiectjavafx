@@ -1,15 +1,14 @@
 package service;
 
 import domain.User;
-import repository.RepoException;
 import repository.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UserService implements Service<Long, User>{
-    private Repository<Long,User> rep;
+public class UserService implements Service<Long, User> {
+    private final Repository<Long, User> rep;
 
     public UserService(Repository<Long, User> rep) {
         this.rep = rep;
@@ -25,9 +24,9 @@ public class UserService implements Service<Long, User>{
         return rep.findAll();
     }
 
-    public Long size(){
-        Long count=0l;
-        for(User u:findAll()){
+    public Long size() {
+        Long count = 0L;
+        for (User u : findAll()) {
             count++;
         }
         return count;
@@ -35,7 +34,7 @@ public class UserService implements Service<Long, User>{
 
     @Override
     public User save(User entity) {
-        entity.setId(size()+1);
+        entity.setId(size() + 1);
         return rep.save(entity);
     }
 
@@ -49,18 +48,18 @@ public class UserService implements Service<Long, User>{
         return rep.update(entity);
     }
 
-    public List<Long> getListOfUID(){
+    public List<Long> getListOfUID() {
         ArrayList<Long> aux = new ArrayList<>();
-        for(User u:findAll()){
+        for (User u : findAll()) {
             aux.add(u.getId());
         }
         Collections.sort(aux);
         return aux;
     }
 
-    public User getbyusername(String username){
-        for(User u : findAll())
-            if(u.getUserName().equals(username))
+    public User getbyusername(String username) {
+        for (User u : findAll())
+            if (u.getUserName().equals(username))
                 return u;
 
         return null;
