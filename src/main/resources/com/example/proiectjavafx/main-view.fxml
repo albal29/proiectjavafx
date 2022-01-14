@@ -47,7 +47,12 @@
                </font>
             </Button>
             <Button layoutX="264.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleBtnLogOut" text="Log Out" />
-            <Button layoutX="50.0" layoutY="225.0" mnemonicParsing="false" onAction="#handleBtnSeeFriends" prefHeight="40.0" prefWidth="226.0" text="See Friends">
+            <Button layoutX="50.0" layoutY="225.0" mnemonicParsing="false" onAction="#handleBtnSeeFriends" prefHeight="26.0" prefWidth="226.0" text="See Friends">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="52.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleBtnGenerateReport" prefHeight="26.0" prefWidth="226.0" text="Reports">
                <font>
                   <Font size="18.0" />
                </font>

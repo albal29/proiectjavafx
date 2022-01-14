@@ -6,10 +6,7 @@ import domain.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import obs.Observer;
 import service.MainService;
@@ -18,33 +15,40 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class FriendRequestController extends Observer {
     @FXML
-    private Label friendRequests;
     private User currentUser;
     private MainService mainService;
-    private ObservableList<FriendRequest> modelReceived = FXCollections.observableArrayList();
-    private ObservableList<FriendRequest> modelSent = FXCollections.observableArrayList();
+    private final ObservableList<FriendRequest> modelReceived = FXCollections.observableArrayList();
+    private final ObservableList<FriendRequest> modelSent = FXCollections.observableArrayList();
 
     @FXML
-    private TableColumn firstNameColumn;
+    Button acceptBtn;
     @FXML
-    private TableColumn lastNameColumn;
+    Button declineBtn;
     @FXML
-    private TableColumn dateDTOColumn;
+    Button deleteBtn;
+
     @FXML
-    private TableColumn statutDTOColumn;
+    private TableColumn<FriendRequest, String> firstNameColumn;
+    @FXML
+    private TableColumn<FriendRequest, String> lastNameColumn;
+    @FXML
+    private TableColumn<FriendRequest, String> dateDTOColumn;
+    @FXML
+    private TableColumn<FriendRequest, String> statutDTOColumn;
     @FXML
     private TableView<FriendRequest> tableView;
 
     @FXML
-    private TableColumn fName;
+    private TableColumn<FriendRequest, String> fName;
     @FXML
-    private TableColumn lName;
+    private TableColumn<FriendRequest, String> lName;
     @FXML
-    private TableColumn dateS;
+    private TableColumn<FriendRequest, String> dateS;
     @FXML
-    private TableColumn statusS;
+    private TableColumn<FriendRequest, String> statusS;
     @FXML
     private TableView<FriendRequest> sentRequestsView;
 
@@ -81,7 +85,7 @@ public class FriendRequestController extends Observer {
             if (x.getId().getRight().equals(currentUser.getId())) {
                 users.add(new FriendRequest(mainService.findUser(x.getId().getLeft()).getFirstName(), mainService.findUser(x.getId().getLeft()).getLastName(), x.getDate(), x.getStatut(), x.getId()));
             }
-            if(x.getId().getLeft().equals(currentUser.getId())){
+            if (x.getId().getLeft().equals(currentUser.getId()) && x.getStatut().equals("Pending")) {
                 usersTo.add(new FriendRequest(mainService.findUser(x.getId().getRight()).getFirstName(), mainService.findUser(x.getId().getRight()).getLastName(), x.getDate(), x.getStatut(), x.getId()));
             }
         });
@@ -92,6 +96,7 @@ public class FriendRequestController extends Observer {
     public void handleBtnRequestsDeny() {
         FriendRequest selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            deleteBtn.setDisable(true);
             mainService.removeFriendship(selected.getId());
             mainService.addFriendship(new Friendship(selected.getId().getLeft(), selected.getId().getRight(), "Declined"));
             modelReceived.remove(selected);
@@ -108,6 +113,7 @@ public class FriendRequestController extends Observer {
     public void handleBtnRequestsAccept() {
         FriendRequest selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            deleteBtn.setDisable(true);
             mainService.removeFriendship(selected.getId());
             mainService.addFriendship(new Friendship(selected.getId().getLeft(), selected.getId().getRight(), "Approved"));
             modelReceived.remove(selected);
@@ -122,9 +128,12 @@ public class FriendRequestController extends Observer {
 
 
     }
-    public void handleBtnRequestsDelete(){
+
+    public void handleBtnRequestsDelete() {
         FriendRequest selected = sentRequestsView.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            acceptBtn.setDisable(true);
+            declineBtn.setDisable(true);
             mainService.removeFriendship(selected.getId());
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setContentText("Friend request deleted successfully!");

@@ -1,28 +1,14 @@
 package com.example.proiectjavafx;
 
-import domain.Friendship;
-import domain.Tuple;
-import domain.User;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import repository.RepoException;
 import service.MainService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class MainController {
     @FXML
@@ -63,14 +49,14 @@ public class MainController {
 
 
 
-    public void handleBtnRequests(ActionEvent actionEvent) throws IOException {
+    public void handleBtnRequests() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("friend-request.fxml"));
         rightSide.setCenter(fxmlLoader.load());
         FriendRequestController friendRequestController = fxmlLoader.getController();
         friendRequestController.setService(service);
     }
 
-    public void handleBtnLogOut(ActionEvent actionEvent) throws IOException {
+    public void handleBtnLogOut() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
@@ -82,9 +68,15 @@ public class MainController {
         mainController.setStage(primaryStage);
     }
 
-    public void handleBtnSeeFriends(ActionEvent actionEvent) throws IOException {
+    public void handleBtnSeeFriends() throws IOException {
         initModel();
     }
 
+    public void handleBtnGenerateReport() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("reports-pdf.fxml"));
+        rightSide.setCenter(fxmlLoader.load());
+        ReportPDFController reportPDFController = fxmlLoader.getController();
+        reportPDFController.setService(service);
+    }
 
 }
