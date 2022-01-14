@@ -4,6 +4,19 @@ import java.time.LocalDateTime;
 
 public class DTO {
     private final String firstName;
+
+    public String getFirstNameDto() {
+        return firstName;
+    }
+
+    public String getLastNameDto() {
+        return lastName;
+    }
+
+    public LocalDateTime getDateDto() {
+        return date;
+    }
+
     private final String lastName;
     private final LocalDateTime date;
 

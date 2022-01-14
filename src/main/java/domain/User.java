@@ -57,7 +57,7 @@ public class User extends Entity<Long>{
 
     @Override
     public String toString() {
-        return firstName + " " + lastName + " " + "with the username:" + userName;
+        return firstName + " " + lastName;
     }
 
     @Override

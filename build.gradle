@@ -33,6 +33,7 @@ javafx {
 }
 
 dependencies {
+
     implementation('org.controlsfx:controlsfx:11.1.0')
     implementation('com.dlsc.formsfx:formsfx-core:11.3.2') {
         exclude(group: 'org.openjfx')
@@ -43,6 +44,8 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
+
+    implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.18'
 }
 
 
