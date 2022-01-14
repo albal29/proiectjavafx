@@ -1,32 +1,22 @@
 package com.example.proiectjavafx;
 
-import domain.Friendship;
-import domain.Tuple;
-import domain.User;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import repository.RepoException;
 import service.MainService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class MainController {
     @FXML
     private BorderPane rightSide;
+
+    @FXML
+    private Button btnfriendRequests;
 
     @FXML
     private Label usernameLbl,firstnameLbl,lastnameLbl;
@@ -42,7 +32,6 @@ public class MainController {
         this.lastnameLbl.setText(service.getByUsername(service.getCurrentUser()).getLastName());
         initModel();
     }
-
 
     public void setStage(Stage primaryStage) {
         this.primaryStage = primaryStage;

@@ -5,6 +5,7 @@ import domain.Message;
 import repository.Repository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class MessageService implements Service<Integer, Message>{
 
     public List<DTOchat> getConv(Long id1, Long id2){
         List<Message> msgs = new ArrayList<>();
-        findAll().forEach(msgs::add);
+        msgs.addAll((Collection<? extends Message>) findAll());
         List<DTOchat> aux = msgs.stream()
                 .filter(m -> m.getFrom().getId() == id1 && m.getTo().stream().filter(x->x.getId()==id2).findAny().orElse(null)!=null)
                 .map(m -> new DTOchat(m.getId(),m.getFrom().getUserName(),m.getMessage(),m.getData(),m.getReply()))

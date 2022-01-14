@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ChatController extends Observer {
     private MainService service;
-    ObservableList<DTOchat> model = FXCollections.observableArrayList();
+    private ObservableList<DTOchat> model = FXCollections.observableArrayList();
     private String fromUser;
 
     @FXML
