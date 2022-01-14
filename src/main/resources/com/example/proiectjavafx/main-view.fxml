@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proiectjavafx.MainController">
    <children>
       <AnchorPane prefHeight="7.0" prefWidth="651.0" style="-fx-background-color: #6495ED;">
@@ -25,12 +24,12 @@
                   <Font size="22.0" />
                </font>
             </Label>
-            <Button fx:id="btnfriendRequests" layoutX="532.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleBtnRequests" prefHeight="32.0" prefWidth="98.0" styleClass="button8" stylesheets="@button.css" text="Friends">
+            <Button fx:id="btnfriendRequests" layoutX="545.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleBtnRequests" prefHeight="32.0" prefWidth="98.0" styleClass="button8" stylesheets="@button.css" text="Requests">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button layoutX="425.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleBtnSeeFriends" prefHeight="32.0" prefWidth="98.0" styleClass="button8" stylesheets="@button.css" text="Requests">
+            <Button layoutX="432.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleBtnSeeFriends" prefHeight="32.0" prefWidth="98.0" styleClass="button8" stylesheets="@button.css" text="Friends">
                <font>
                   <Font size="14.0" />
                </font>
@@ -64,7 +63,7 @@
                   <Button layoutY="345.0" mnemonicParsing="false" onAction="#handleBtnLogOut" styleClass="button8" stylesheets="@button.css" text="Log Out" />
                </children>
             </AnchorPane>
-            <BorderPane fx:id="rightSide" prefHeight="371.0" prefWidth="419.0" />
+            <BorderPane fx:id="rightSide" prefHeight="371.0" prefWidth="419.0" style="-fx-background-color: ADD8E6;" />
          </children>
       </HBox>
    </children>
