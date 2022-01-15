@@ -10,12 +10,12 @@
             prefWidth="334.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.proiectjavafx.ReportPDFController">
     <children>
-        <Button fx:id="activitiesBtn" layoutX="47.0" layoutY="240.0" mnemonicParsing="false"
+        <!--<Button fx:id="activitiesBtn" layoutX="47.0" layoutY="240.0" mnemonicParsing="false"
                 onAction="#handleBtnActivitiesReports" text="Activities Report"/>
         <Button fx:id="messagesBtn" layoutX="179.0" layoutY="240.0" mnemonicParsing="false"
                 onAction="#handleBtnMessagesReports" text="Messages Report"/>
         <DatePicker fx:id="firstDate" layoutX="134.0" layoutY="21.0" onAction="#handleFirstDate"/>
-        <DatePicker fx:id="secondDate" layoutX="134.0" layoutY="76.0" onAction="#handleSecondDate"/>
+        <DatePicker fx:id="secondDate" layoutX="134.0" layoutY="76.0" onAction="#handleSecondDate"/>-->
         <ChoiceBox fx:id="friendSelection" layoutX="136.0" layoutY="130.0" prefHeight="25.0" prefWidth="174.0"/>
         <Label layoutX="33.0" layoutY="25.0" text="From"/>
         <Label layoutX="33.0" layoutY="80.0" text="To"/>

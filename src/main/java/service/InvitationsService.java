@@ -32,7 +32,7 @@ public class InvitationsService implements Repository<Integer, InvitationEvenime
 
     @Override
     public InvitationEveniment update(InvitationEveniment entity) {
-        return null;
+        return integerInvitationEvenimentRepository.update(entity);
     }
 
 }

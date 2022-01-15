@@ -1,7 +1,9 @@
 package repository.database;
 
+import domain.Eveniment;
 import domain.InvitationEveniment;
 import domain.User;
+import repository.RepoException;
 import repository.Repository;
 import java.sql.*;
 import java.util.HashSet;
@@ -107,7 +109,7 @@ public class InvitationsDbRepository implements Repository<Integer, InvitationEv
     @Override
     public InvitationEveniment delete(Integer integer) {
         try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement statement = connection.prepareStatement("delete from invitations i where i.eventid=?")) {
+             PreparedStatement statement = connection.prepareStatement("delete from invitations i where i.idinvite=?")) {
             statement.setInt(1, integer);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -118,10 +120,10 @@ public class InvitationsDbRepository implements Repository<Integer, InvitationEv
 
     @Override
     public InvitationEveniment update(InvitationEveniment entity) {
-        String sql = "UPDATE invitations set reply=? from users WHERE idinvite ='" + entity.getIdInv() + "'";
+        String sql = "UPDATE invitations set reply=? WHERE eventid =\'"+ entity.getEventID() + "\' and invitee= \'"+Math.toIntExact(entity.getInvitee().getId())+"'";
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1,entity.getReplyInvite());
+            ps.setString(1, entity.getReplyInvite());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

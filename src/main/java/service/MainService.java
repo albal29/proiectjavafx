@@ -237,12 +237,21 @@ public class MainService extends Observable {
     }
 
     public Eveniment createEveniment(Eveniment eveniment) {
+
+        es.save(eveniment);
+       List<Eveniment> ev = new ArrayList<>();
+       findEvenimente().forEach(x->ev.add(x));
+
         for (User u : findAllUsers()
         ) {
-            is.save(new InvitationEveniment(getByUsername(getCurrentUser()), eveniment.getEventID(), u));
+            if (u.equals(getByUsername(getCurrentUser())))
+                saveInvitation(new InvitationEveniment(getByUsername(getCurrentUser()), ev.size(), u, "approved"));
+            else
+                saveInvitation(new InvitationEveniment(getByUsername(getCurrentUser()), ev.size(), u));
         }
-        return es.save(eveniment);
+        return eveniment;
     }
+
 
     public Eveniment deleteEveniment(int id) {
         for (InvitationEveniment ie : is.findAll()
@@ -283,4 +292,16 @@ public class MainService extends Observable {
         return evenimentsByUser;
     }
 
+    public Iterable<InvitationEveniment> findInvitaions() {
+        return is.findAll();
+    }
+
+    public InvitationEveniment checkIfAccepted(User invitee, Eveniment eveniment) {
+        for (InvitationEveniment x : findInvitaions()
+        ) {
+            if (x.getEventID() == eveniment.getEventID() && x.getInvitee().equals(invitee))
+                return x;
+        }
+        return null;
+    }
 }

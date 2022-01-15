@@ -1,5 +1,6 @@
 package com.example.proiectjavafx;
 
+import domain.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,16 +10,29 @@ import javafx.stage.Stage;
 import service.MainService;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class MainController {
+    private final ReportPDFController reportPDFController=new ReportPDFController();
+
     @FXML
     private BorderPane rightSide;
 
     @FXML
     private Label usernameLbl, firstnameLbl, lastnameLbl;
 
+    @FXML
+    private DatePicker firstDate;
+    @FXML
+    private DatePicker secondDate;
+    @FXML
+    private ChoiceBox<User> friendSelection;
+
     private MainService service;
     private Stage primaryStage;
+
+    public MainController() {
+    }
 
 
     public void setService(MainService service) throws IOException {
@@ -27,6 +41,12 @@ public class MainController {
         this.firstnameLbl.setText(service.getByUsername(service.getCurrentUser()).getFirstName());
         this.lastnameLbl.setText(service.getByUsername(service.getCurrentUser()).getLastName());
         initModel();
+        reportPDFController.setService(service,friendSelection);
+
+    }
+
+    public void startReport(Main service){
+
     }
 
 
@@ -71,5 +91,28 @@ public class MainController {
         initModel();
     }
 
+    public LocalDate handleFirstDate() {
+        return firstDate.getValue();
+    }
+
+    public LocalDate handleSecondDate() {
+        return secondDate.getValue();
+    }
+
+    public void handleBtnMessagesReports(){
+        reportPDFController.handleBtnMessagesReports(handleFirstDate(),handleSecondDate(),friendSelection.getSelectionModel().getSelectedItem());
+    }
+
+    public void handleBtnActivitiesReports(){
+        reportPDFController.handleBtnActivitiesReports(handleFirstDate(),handleSecondDate());
+    }
+
+    @FXML
+    public void handleBtnEvents() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("event-view.fxml"));
+        rightSide.setCenter(fxmlLoader.load());
+        EvenimentController evenimentController = fxmlLoader.getController();
+        evenimentController.setService(service);
+    }
 
 }

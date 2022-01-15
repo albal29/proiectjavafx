@@ -7,11 +7,22 @@ public class InvitationEveniment extends Entity<Integer> {
     private String replyInvite;
     private int idInv;
 
+    public InvitationEveniment(){
+
+    }
+
     public InvitationEveniment(User creator, int eventID, User invitee) {
         this.creator = creator;
         this.eventID = eventID;
         this.invitee = invitee;
         this.replyInvite = "Pending";
+    }
+
+    public InvitationEveniment(User creator, int eventID, User invitee, String reply) {
+        this.creator = creator;
+        this.eventID = eventID;
+        this.invitee = invitee;
+        this.replyInvite = reply;
     }
 
     public InvitationEveniment(int id, User creator, int eventID, User invitee, String replyInvite) {

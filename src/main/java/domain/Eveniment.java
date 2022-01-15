@@ -22,11 +22,14 @@ public class Eveniment extends Entity<Integer> {
         this.location = location;
     }
 
-    public Eveniment(String title, String description, User creator, List<User> participant, LocalDateTime eventDate, String location) {
+    public Eveniment(){
+
+    }
+
+    public Eveniment(String title, String description, User creator, LocalDateTime eventDate, String location) {
         this.title = title;
         this.description = description;
         this.creator = creator;
-        this.participants = participant;
         this.eventDate = eventDate;
         this.location = location;
     }
